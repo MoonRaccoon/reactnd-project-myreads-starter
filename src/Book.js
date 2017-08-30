@@ -2,21 +2,34 @@
  * Created by Shamoun on 8/25/17.
  */
 import React, { Component } from 'react'
+import * as BooksAPI from './BooksAPI'
 import PropTypes from 'prop-types'
 
 class Book extends Component {
   static propTypes = {
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     authors: PropTypes.string.isRequired,
-    imageURL: PropTypes.string.isRequired
+    imageURL: PropTypes.string.isRequired,
+    shelf: PropTypes.string
   }
 
   state = {
     shelf: 'none'
   }
 
+  // Will get shelf state on creation from backend book object
+  constructor(props) {
+    super(props)
+    this.state ={
+      shelf: this.props.shelf
+    }
+  }
+
   handleShelfChange = (event) => {
-    this.setState({ shelf: event.target.value})
+    let e = event.target.value
+    this.setState({ shelf: e})
+    this.props.onShelfChange(this.props.id, e)
   }
 
   render() {
@@ -25,7 +38,7 @@ class Book extends Component {
     return (
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")' }}></div>
+          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: imageURL}}></div>
           <div className="book-shelf-changer">
             <select value={shelf} onChange={this.handleShelfChange}>
               <option value="none" disabled>Move to...</option>
