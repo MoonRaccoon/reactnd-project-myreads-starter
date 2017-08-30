@@ -2,7 +2,6 @@
  * Created by Shamoun on 8/25/17.
  */
 import React, { Component } from 'react'
-import * as BooksAPI from './BooksAPI'
 import PropTypes from 'prop-types'
 
 class Book extends Component {
@@ -11,7 +10,8 @@ class Book extends Component {
     title: PropTypes.string.isRequired,
     authors: PropTypes.string.isRequired,
     imageURL: PropTypes.string.isRequired,
-    shelf: PropTypes.string
+    shelf: PropTypes.string.isRequired,
+    onShelfChange: PropTypes.func
   }
 
   state = {

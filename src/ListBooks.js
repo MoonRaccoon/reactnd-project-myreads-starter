@@ -9,18 +9,20 @@ import Book from './Book'
 class ListBooks extends Component {
   static propTypes = {
     currentBooks: PropTypes.array.isRequired,
+    onShelfChange: PropTypes.func.isRequired
   }
 
   booksOnShelf = (shelf) => {
     return (
       this.props.currentBooks
-        .filter((book) => (book.shelf == shelf))
+        .filter((book) => (book.shelf === shelf))
         .map((book) => (
           <li key={book.id}>
             <Book id={book.id}
                   title={book.title}
-                  authors={book.authors.join(", ")}
-                  imageURL={`url(${book.imageLinks.thumbnail})`}
+                  authors={book.authors ? book.authors.join(", ") : ''}
+                  imageURL={book.imageLinks ?
+                    `url(${book.imageLinks.thumbnail})` : ''}
                   shelf={shelf}
                   onShelfChange={this.props.onShelfChange}/>
           </li>
