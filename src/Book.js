@@ -16,10 +16,9 @@ class Book extends Component {
   }
 
   state = {
-    shelf: 'none'
+    shelf: ''
   }
 
-  // Will get shelf state on creation from backend book object
   constructor(props) {
     super(props)
     this.state ={
