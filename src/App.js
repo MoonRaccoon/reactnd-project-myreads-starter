@@ -2,7 +2,7 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import ListBooks from './ListBooks'
 import SearchBooks from './SearchBooks'
-import { Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -30,6 +30,19 @@ class BooksApp extends React.Component {
     BooksAPI.update({id: id}, shelf)
   }
 
+  addToBooks = (id) => {
+    // If book is already in current book state, do nothing
+    for (let i = 0; i < this.state.books.length; i++) {
+      if (this.state.books[i].id === id) {
+        return
+      }
+    }
+    const bookToAdd = this.state.searchResults.filter(book => (book.id === id))
+    this.setState((state) => ({
+      books: state.books.concat( bookToAdd )
+    }))
+  }
+
   bookSearch = (query) => {
     BooksAPI.search(query, 20).then((results) => {
       results.error === "empty query" ?
@@ -48,7 +61,10 @@ class BooksApp extends React.Component {
         )}/>
         <Route path="/search" render={() => (
           <SearchBooks searchResults={this.state.searchResults}
-                       onBookSearch={this.bookSearch}/>
+                       onBookSearch={this.bookSearch}
+                       onShelfChange={this.changeShelf}
+                       onBookAdd={this.addToBooks}
+                       currentBooks={this.state.books}/>
         )}/>
       </div>
     )

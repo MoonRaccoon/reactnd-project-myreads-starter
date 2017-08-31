@@ -8,7 +8,11 @@ import PropTypes from 'prop-types'
 
 class SearchBooks extends Component {
   static propTypes = {
-    searchResults: PropTypes.array.isRequired
+    searchResults: PropTypes.array.isRequired,
+    onShelfChange: PropTypes.func.isRequired,
+    onBookAdd: PropTypes.func.isRequired,
+    currentBooks: PropTypes.array.isRequired,
+    onBookSearch: PropTypes.func.isRequired
   }
 
   state = {
@@ -23,6 +27,16 @@ class SearchBooks extends Component {
     e.preventDefault()
     this.props.onBookSearch(this.state.query)
   }
+
+  getShelf = (id) => {
+    for (let i = 0; i < this.props.currentBooks.length; i++) {
+      if (this.props.currentBooks[i].id === id) {
+        return this.props.currentBooks[i].shelf
+      }
+    }
+    return "none"
+  }
+
   render() {
     return (
       <div className="search-books">
@@ -47,8 +61,12 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           {this.props.searchResults.length === 0 &&
-            <p>Currently showing no results. If you've attempted a search
-               already, try a different query! (For example, "Art")</p>
+            <div>
+              <p>Currently showing no results.
+                 Press "enter" to perform a search.</p>
+              <p>If you've attempted a search already, try a
+                 different query! (For example, "Art")</p>
+            </div>
           }
           <ol className="books-grid">
             {this.props.searchResults
@@ -59,8 +77,9 @@ class SearchBooks extends Component {
                         authors={book.authors ? book.authors.join(", ") : ''}
                         imageURL={book.imageLinks ?
                           `url(${book.imageLinks.thumbnail})` : ''}
-                        shelf={book.shelf ? book.shelf : "none"}
-                        onShelfChange={this.props.onShelfChange}/>
+                        shelf={this.getShelf(book.id)}
+                        onShelfChange={this.props.onShelfChange}
+                        onBookAdd={this.props.onBookAdd}/>
                 </li>
               ))}
           </ol>

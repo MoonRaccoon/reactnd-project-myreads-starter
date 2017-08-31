@@ -11,7 +11,8 @@ class Book extends Component {
     authors: PropTypes.string.isRequired,
     imageURL: PropTypes.string.isRequired,
     shelf: PropTypes.string.isRequired,
-    onShelfChange: PropTypes.func
+    onShelfChange: PropTypes.func.isRequired,
+    onBookAdd: PropTypes.func
   }
 
   state = {
@@ -29,6 +30,9 @@ class Book extends Component {
   handleShelfChange = (event) => {
     let e = event.target.value
     this.setState({ shelf: e})
+    if (this.props.onBookAdd) {
+      this.props.onBookAdd(this.props.id)
+    }
     this.props.onShelfChange(this.props.id, e)
   }
 
