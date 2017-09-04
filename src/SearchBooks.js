@@ -73,10 +73,9 @@ class SearchBooks extends Component {
         <div className="search-books-results">
           {this.props.searchResults.length === 0 &&
             <div>
-              <p>Currently showing no results.
-                 Press "enter" to perform a search.</p>
-              <p>If you've attempted a search already, try a
-                 different query! (For example, "Art")</p>
+              <p>Currently showing no results. Start typing!</p>
+              <p>If nothing comes up, try a
+                 different query - for example, "Art"</p>
             </div>
           }
           <ol className="books-grid">
