@@ -12,7 +12,8 @@ class SearchBooks extends Component {
     onShelfChange: PropTypes.func.isRequired,
     onBookAdd: PropTypes.func.isRequired,
     currentBooks: PropTypes.array.isRequired,
-    onBookSearch: PropTypes.func.isRequired
+    onBookSearch: PropTypes.func.isRequired,
+    clearSearch: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -33,6 +34,9 @@ class SearchBooks extends Component {
       'Satire', 'Science Fiction', 'Shakespeare', 'Singh', 'Swimming',
       'Tale', 'Thrun', 'Time', 'Tolstoy', 'Travel', 'Ultimate',
       'Virtual Reality', 'Web Development', 'iOS']
+    this.example = this.searchTerms[Math.floor(
+      Math.random() * this.searchTerms.length
+    )]
   }
 
   state = {
@@ -46,6 +50,9 @@ class SearchBooks extends Component {
     let result = this.searchTerms.filter((term) => match.test(term))
     if (result.length === 1) {
       this.props.onBookSearch(result.toString())
+    }
+    else if (this.props.searchResults.length !== 0) {
+      this.props.clearSearch()
     }
   }
 
@@ -73,9 +80,10 @@ class SearchBooks extends Component {
         <div className="search-books-results">
           {this.props.searchResults.length === 0 &&
             <div>
-              <p>Currently showing no results. Start typing!</p>
+              <p>Currently showing no results. Start or continue typing!</p>
               <p>If nothing comes up, try a
-                 different query - for example, "Art"</p>
+                 different query - for example, "{this.example}"
+              </p>
             </div>
           }
           <ol className="books-grid">
